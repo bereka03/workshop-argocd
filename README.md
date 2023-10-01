@@ -290,7 +290,7 @@ EOL
 kubeseal --format yaml <secret.yaml >sealedsecret.yaml
 
 ###Adding app
-argocd app create 02-secret --repo https://github.com/galphaa/testerday2023.git \
+argocd app create 02-secret --repo https://github.com/galphaa/workshop-gitops.git \
 --path 00_argocd/02_secret --dest-server https://kubernetes.default.svc --dest-namespace demo-app
 
 kubectl logs -n demo-app demo-app
