@@ -246,7 +246,7 @@ argocd app get 01-guestbook
 If we look at our resources using kubectl:
 
 ```bash
-kubectl get all -n default
+kubectl get all -A
 ```
 
 Let's delete our application from the CLI, first list our applications
