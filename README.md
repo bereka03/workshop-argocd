@@ -268,7 +268,7 @@ argocd app delete 01-guestbook
 Before we start encrypting we need to install our sealed secret controller
 
 ```bash
-kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/$KUBESEAL_VERSION/controller.yaml
+https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION:?}/controller.yaml
 ```
 
 Creating some demo secret from base64 and encrypring them via sealed controller
