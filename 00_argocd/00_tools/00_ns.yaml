@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: guestbook-demo
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-app
