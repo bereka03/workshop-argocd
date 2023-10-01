@@ -285,7 +285,6 @@ metadata:
   name: mysecret
   namespace: demo-app
 EOL
-```
 
 ###Sealing secret
 kubeseal --format yaml <secret.yaml >sealedsecret.yaml
@@ -295,5 +294,6 @@ argocd app create 02-secret --repo https://github.com/galphaa/testerday2023.git 
 --path 00_argocd/02_secret --dest-server https://kubernetes.default.svc --dest-namespace demo-app
 
 kubectl logs -n demo-app demo-app
+```
 
 
