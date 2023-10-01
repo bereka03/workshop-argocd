@@ -180,7 +180,7 @@ helm install argocd argo/argo-cd --version 5.27.1 --namespace kube-system --set 
 Once the installation process has been completed, you should be able to get the initial admin password from this secret:
 
 ```bash
-kubectl -n kube-system get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
 Once you have copied the password, create a port forward to access the argocd ui:
