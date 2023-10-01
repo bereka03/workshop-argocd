@@ -186,7 +186,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 Once you have copied the password, create a port forward to access the argocd ui:
 
 ```bash
-kubectl -n kube-system port-forward svc/argocd-server 8080:80
+kubectl -n argocd port-forward svc/argocd-server 8080:80
 ```
 
 ### Authenticate ArgoCD CLI
