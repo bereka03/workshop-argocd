@@ -17,8 +17,9 @@ Experimenting with ArgoCD
 - [ArgoCD Usage](#argocd-usage)
   - [ArgoCD CLI](#argocd-cli-1)
   - [ArgoCD UI](#argocd-ui)
-- [Sealed Secrets](#argocd-usage)
-  - [kubedeal CLI](#argocd-cli-1)
+- [Sealed Secrets](#sealed-secrets-and-storing-them-in-git)
+  - [Installation](#sealed-secret-operator)
+  - [kubeseal CLI](#kubeseal-cli)
 ## About
 
 This is a workshop for demonstration of GitOps. I will be deploying ArgoCD on Kubernetes using KinD.
@@ -121,6 +122,21 @@ rm argocd-linux-amd64
 
 </details>
 
+### Kubeseal CLI
+
+If you need to install argocd-cli on a operating system other than Linux, have a look at their [installation documentation](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+During workshop we will use kubeseal cli in order to encrypt generic kubernetes secrets
+
+<details>
+  <summary>Installation Steps</summary>
+
+```bash
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -o root -g root -m 0755 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+```
+
+</details>
 ## Kubernetes Cluster
 
 Deploy a kubernetes cluster with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) and a list of images can be found on [github](https://github.com/kubernetes-sigs/kind/releases):
