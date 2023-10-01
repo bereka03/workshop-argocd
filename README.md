@@ -124,16 +124,16 @@ rm argocd-linux-amd64
 
 ### Kubeseal CLI
 
-If you need to install argocd-cli on a operating system other than Linux, have a look at their [installation documentation](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 During workshop we will use kubeseal cli in order to encrypt generic kubernetes secrets
 
 <details>
   <summary>Installation Steps</summary>
 
 ```bash
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -o root -g root -m 0755 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
+KUBESEAL_VERSION='0.23.0'
+wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION:?}/kubeseal-${KUBESEAL_VERSION:?}-linux-amd64.tar.gz"
+tar -xvzf kubeseal-${KUBESEAL_VERSION:?}-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 ```
 
 </details>
@@ -142,7 +142,7 @@ rm argocd-linux-amd64
 Deploy a kubernetes cluster with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) and a list of images can be found on [github](https://github.com/kubernetes-sigs/kind/releases):
 
 ```bash
-kind create cluster --config=kind/kind-config.yaml
+kind create cluster --config=kind/kind-config.yaml --image=kindest/node:v1.27.3
 ```
 
 You should be able to interact with your cluster using:
@@ -263,5 +263,37 @@ argocd app delete 01-guestbook
 # application '01-guestbook' deleted
 ```
 
-## Sealed secrets and storing them in git
+## Sealed secrets controller and storing them in git
+
+Before we start encrypting we need to install our sealed secret controller
+
+```bash
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/$KUBESEAL_VERSION/controller.yaml
+```
+
+Creating some demo secret from base64 and encrypring them via sealed controller
+
+```bash
+#Creating basic secret
+cat <<EOL > secret.yaml
+apiVersion: v1
+data:
+  secret: UzNDUjNUCg==
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: mysecret
+  namespace: demo-app
+EOL
+```
+
+###Sealing secret
+kubeseal --format yaml <secret.yaml >sealedsecret.yaml
+
+###Adding app
+argocd app create 02-secret --repo https://github.com/galphaa/testerday2023.git \
+--path 00_argocd/02_secret --dest-server https://kubernetes.default.svc --dest-namespace demo-app
+
+kubectl logs -n demo-app demo-app
+
 
